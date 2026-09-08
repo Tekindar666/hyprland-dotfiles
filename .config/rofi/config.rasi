@@ -1,0 +1,122 @@
+configuration {
+    modi: "drun,window,run";
+    show-icons: true;
+    drun-display-format: "{name}";
+    font: "JetBrainsMono Nerd Font 14";
+}
+
+* {
+    background: #242933F2;
+    surface: #2E3440;
+    surface-alt: #3B4252;
+    foreground: #D8DEE9;
+    muted: #81A1C1;
+    accent: #88C0D0;
+}
+
+window {
+    location: center;
+    anchor: center;
+    width: 42%;
+    border: 2px;
+    border-color: @surface-alt;
+    border-radius: 10px;
+    background-color: @background;
+}
+
+mainbox {
+    padding: 18px;
+    spacing: 14px;
+    background-color: transparent;
+}
+
+inputbar {
+    padding: 12px;
+    spacing: 10px;
+    border-radius: 7px;
+    background-color: @surface;
+    text-color: @foreground;
+}
+
+prompt {
+    text-color: @foreground;
+}
+
+entry {
+    placeholder: "Search applications";
+    placeholder-color: @muted;
+    text-color: @foreground;
+}
+
+listview {
+    lines: 10;
+    columns: 1;
+    spacing: 5px;
+    scrollbar: false;
+    require-input: true;
+    background-color: transparent;
+}
+
+element {
+    padding: 10px;
+    spacing: 12px;
+    border-radius: 7px;
+    text-color: @foreground;
+    background-color: @surface;
+}
+
+element normal.normal {
+    background-color: @surface;
+    text-color: @foreground;
+}
+
+element normal.active {
+    background-color: @surface;
+    text-color: @foreground;
+}
+
+element normal.urgent {
+    background-color: @surface;
+    text-color: @foreground;
+}
+
+element alternate.normal {
+    background-color: @surface;
+    text-color: @foreground;
+}
+
+element alternate.active {
+    background-color: @surface;
+    text-color: @foreground;
+}
+
+element alternate.urgent {
+    background-color: @surface;
+    text-color: @foreground;
+}
+
+element selected.normal {
+    background-color: @surface-alt;
+    text-color: @foreground;
+}
+
+element selected.active {
+    background-color: @surface-alt;
+    text-color: @foreground;
+}
+
+element selected.urgent {
+    background-color: @surface-alt;
+    text-color: @foreground;
+}
+
+element-icon {
+    size: 1.5em;
+    background-color: transparent;
+}
+
+element-text {
+    vertical-align: 0.5;
+    background-color: transparent;
+    text-color: inherit;
+}

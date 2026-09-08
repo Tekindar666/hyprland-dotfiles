@@ -1,0 +1,14 @@
+# Backup files
+*.backup
+*.backup.*
+*~
+
+# Editor files
+*.swp
+*.swo
+.*.sw[a-z]
+
+# Local state
+.env
+*.log
+.cache/

@@ -1,0 +1,11 @@
+[SddmGreeterTheme]
+Name=Nord Mountains
+Description=Minimal Nord login theme for Hyprland
+Type=sddm-theme
+Author=Ed Tan
+License=MIT
+Version=1.0
+MainScript=Main.qml
+Theme-Id=nord-mountains
+Theme-API=2.0
+QtVersion=6
