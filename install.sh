@@ -91,6 +91,13 @@ for name in dunst hypr rofi waybar; do
     link_path "$SCRIPT_DIR/.config/$name" "$HOME/.config/$name"
 done
 
+link_path \
+    "$SCRIPT_DIR/.config/fcitx5/conf/classicui.conf" \
+    "$HOME/.config/fcitx5/conf/classicui.conf"
+link_path \
+    "$SCRIPT_DIR/.local/share/fcitx5/themes/nordic" \
+    "$HOME/.local/share/fcitx5/themes/nordic"
+
 if [[ "$SKIP_SDDM" == false ]]; then
     install_sddm_theme
 fi
