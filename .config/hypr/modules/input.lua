@@ -9,3 +9,8 @@ hl.config({
         },
     },
 })
+
+hl.device({
+    name = "apple-inc.-magic-trackpad",
+    natural_scroll = true,
+})

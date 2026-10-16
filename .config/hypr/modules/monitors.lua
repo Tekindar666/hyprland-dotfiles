@@ -4,3 +4,9 @@ hl.monitor({
     position = "0x0",
     scale = "1.5",
 })
+
+hl.workspace_rule({
+    workspace = "name:w",
+    monitor = "DP-3",
+    default = true,
+})

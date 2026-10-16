@@ -3,29 +3,20 @@
   "position": "top",
   "height": 40,
   "spacing": 0,
-
-  "modules-left": [
-    "hyprland/workspaces",
-    "hyprland/window"
-  ],
-  "modules-center": [
-    "clock"
-  ],
-  "modules-right": [
-    "pulseaudio",
-    "memory",
-    "cpu",
-    "tray"
-  ],
-
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["group/system"],
+  "group/system": {
+    "orientation": "horizontal",
+    "modules": [
+      "pulseaudio", "pulseaudio#mic", "custom/brightness",
+      "custom/gmail", "bluetooth", "network"
+    ]
+  },
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate",
-    "sort-by": "name",
-    "ignore-workspaces": ["^1$"],
-    "persistent-workspaces": {
-      "DP-3": ["w", "t", "p", "a", "d", "x", "c", "b", "m"]
-    }
+    "active-only": true
   },
   "hyprland/window": {
     "format": "{class}",
@@ -33,7 +24,7 @@
     "separate-outputs": true
   },
   "clock": {
-    "format": "{:%a %b %d  %H:%M}",
+    "format": "{:%a %d  %H:%M}",
     "tooltip-format": "{:%A, %B %d, %Y\n%H:%M:%S}",
     "interval": 1
   },
@@ -41,20 +32,49 @@
     "format": "󰕾 {volume}%",
     "format-muted": "󰖁 muted",
     "scroll-step": 5,
-    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "tooltip-format": "{desc} — {volume}%"
   },
-  "memory": {
-    "interval": 10,
-    "format": "󰍛 {percentage}%",
-    "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G"
+  "pulseaudio#mic": {
+    "format": "{format_source}",
+    "format-muted": "{format_source}",
+    "format-source": "󰍬 {volume}%",
+    "format-source-muted": "<span foreground='#bf616a'>󰍭 muted</span>",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+    "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-",
+    "tooltip-format": "Microphone — click to mute; scroll to adjust"
   },
-  "cpu": {
-    "interval": 10,
-    "format": " {usage}%",
-    "tooltip-format": "CPU usage: {usage}%"
+  "custom/brightness": {
+    "exec": "python3 ~/.config/waybar/status.py brightness",
+    "return-type": "json",
+    "interval": 30,
+    "on-scroll-up": "python3 ~/.config/waybar/status.py brightness +",
+    "on-scroll-down": "python3 ~/.config/waybar/status.py brightness -"
   },
-  "tray": {
-    "spacing": 8
+  "custom/gmail": {
+    "exec": "python3 ~/.config/waybar/status.py gmail",
+    "return-type": "json",
+    "interval": 120
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": " {num_connections}",
+    "format-disabled": " off",
+    "format-off": " off",
+    "format-no-controller": " unavailable",
+    "tooltip-format": "Bluetooth: {status}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "blueman-manager"
+  },
+  "network": {
+    "interface": "wl*",
+    "format-wifi": " {signalStrength}%",
+    "format-disconnected": "󰖪 offline",
+    "format-disabled": "󰖪 off",
+    "tooltip-format-wifi": "{essid}\n{ipaddr}\nSignal: {signalStrength}%",
+    "tooltip-format-disconnected": "Wi-Fi disconnected",
+    "on-click": "nm-connection-editor"
   }
 }

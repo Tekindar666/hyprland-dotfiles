@@ -31,3 +31,28 @@ The installer symlinks user configuration into `~/.config` and the Fcitx5 theme 
 Existing regular files or directories are moved to timestamped backups before linking.
 
 The configured session expects Hyprland with Lua configuration support plus Hyprpaper, Dunst, Rofi, Waybar, NetworkManager Applet, Blueman, cliphist, Fcitx5, fcitx5-chinese-addons, and the GNOME PolicyKit agent.
+
+## Waybar controls
+
+Only the active workspace is shown; `w` is the default workspace on DP-3.
+Click volume or microphone to toggle mute; scroll to adjust the level.
+Scroll brightness to adjust the external monitor with `ddcutil` (requires I2C
+access). The brightness helper targets ddcutil's default display; revisit this
+selection before adding another DDC-capable monitor. Python 3 is also required.
+Bluetooth and Wi-Fi show details on hover and open their settings on click.
+The system tray is not displayed.
+
+### Gmail unread inbox count
+
+Install [gogcli](https://github.com/openclaw/gogcli) (`gog`) and follow its OAuth
+setup instructions for Gmail. Prefer read-only Gmail authorization. Keep OAuth
+client files and tokens outside this repository. Put the authorized account
+address in `~/.config/waybar-gmail-account` (or under `$XDG_CONFIG_HOME`).
+The bar reads INBOX's `messagesUnread` count every two minutes; it does not read
+message bodies. Missing setup, authentication failures, or network errors show
+an unavailable indicator, not zero. Authorization is a separate manual step.
+
+Validation: `python3 tests/waybar-status.py`. After reloading Waybar, check both
+audio mute controls, brightness scrolling, and Bluetooth/Wi-Fi tooltips. Check
+the default workspace in a fresh Hyprland session; reloading does not move the
+current workspace.

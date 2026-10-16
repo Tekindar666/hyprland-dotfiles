@@ -1,10 +1,10 @@
 hl.config({
     general = {
         gaps_in = 3,
-        gaps_out = 8,
+        gaps_out = { top = 4, right = 8, bottom = 8, left = 8 },
         border_size = 2,
         resize_on_border = true,
-        layout = "scrolling",
+        layout = "dwindle",
         col = {
             active_border = "rgba(88c0d0ff)",
             inactive_border = "rgba(4c566aff)",
@@ -18,13 +18,6 @@ hl.config({
         blur = {
             enabled = false,
         },
-    },
-    scrolling = {
-        column_width = 0.5,
-        explicit_column_widths = "0.5, 1.0",
-        focus_fit_method = 1,
-        follow_focus = true,
-        fullscreen_on_one_column = true,
     },
     misc = {
         disable_hyprland_logo = true,

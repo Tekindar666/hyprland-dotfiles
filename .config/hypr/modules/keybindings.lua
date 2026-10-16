@@ -9,7 +9,6 @@ hl.bind(main_mod .. " + SPACE", hl.dsp.exec_cmd("pkill -x rofi || rofi -show dru
 hl.bind(main_mod .. " + Q", hl.dsp.window.close())
 hl.bind("ALT + F4", hl.dsp.window.close())
 hl.bind(main_mod .. " + Y", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(hyper_mod .. " + F", hl.dsp.layout("colresize +conf"))
 hl.bind("ALT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 
 local directions = {
@@ -23,10 +22,6 @@ for _, binding in ipairs(directions) do
     hl.bind(hyper_mod .. " + " .. binding.key, hl.dsp.focus({ direction = binding.direction }))
     hl.bind("ALT + " .. binding.key, hl.dsp.window.swap({ direction = binding.direction }))
 end
-
-hl.bind(hyper_mod .. " + comma", hl.dsp.layout("move -col"))
-hl.bind(hyper_mod .. " + period", hl.dsp.layout("move +col"))
-hl.bind("ALT + SPACE", hl.dsp.layout("consume_or_expel prev"))
 
 local workspaces = { "w", "t", "p", "a", "d", "x", "c", "b", "m" }
 
