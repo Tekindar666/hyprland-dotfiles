@@ -49,6 +49,7 @@ window#waybar {
 #pulseaudio,
 #custom-brightness,
 #bluetooth,
+#battery,
 #network {
   padding: 0 9px;
 }
@@ -60,7 +61,8 @@ window#waybar {
 
 #pulseaudio.muted:not(.mic),
 #custom-brightness.unavailable,
-#network.disconnected {
+#network.disconnected,
+#battery.critical:not(.charging) {
   color: #bf616a;
 }
 

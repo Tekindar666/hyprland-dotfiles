@@ -35,10 +35,10 @@ SDDM is optional and is not installed by this flag.
 
 On a fresh machine, enable `NetworkManager` and `bluetooth` services if needed
 (do not enable a competing network manager). PipeWire/WirePlumber provide audio.
-DDC brightness still requires compatible hardware and I2C permissions; `brightnessctl`
-is installed for laptops, but the current Waybar helper only supports DDC.
+Desktop DDC brightness requires compatible hardware and I2C permissions.
+Laptop screen brightness uses `brightnessctl` instead.
 
-The wallpaper is stored at `.config/hypr/assets/wallpaper.png` and configured in
+The wallpaper is stored at `.config/hypr/assets/ign_unsplash44.png` and configured in
 `.config/hypr/hyprpaper.conf`. The original file in Downloads is not needed after installation.
 
 Existing regular files or directories are moved to timestamped backups before linking.
@@ -53,11 +53,15 @@ Workspace `1` is the startup default. Use `Super+1–9` to switch numbered
 workspaces and `Alt+1–9` to move a window and follow it. Lettered workspaces and
 their existing shortcuts remain available.
 The right side uses text labels: `vol`, `mic`, `brt`, `bt`, and `wifi`.
+A `bat` percentage and charging status appear when a battery is available.
 Hover for details; connected Bluetooth is blue, and mute/disconnection states are explicit.
 Click volume or microphone to toggle mute; scroll to adjust the level.
-Scroll brightness to adjust the external monitor with `ddcutil` (requires I2C
-access). The brightness helper targets ddcutil's default display; revisit this
-selection before adding another DDC-capable monitor. Python 3 is also required.
+Scroll brightness to adjust the laptop screen with `brightnessctl` when a
+backlight is available (excluding the Apple Touch Bar). On laptops this always
+targets the built-in screen, even with an external monitor connected. Without a
+screen backlight, it uses `ddcutil` (requires I2C access) for the default external
+display; revisit this selection before adding another DDC-capable monitor.
+Failures show `brt —` without switching to another device. Python 3 is also required.
 Bluetooth and Wi-Fi show details on hover and open their settings on click.
 The system tray is not displayed.
 

@@ -10,7 +10,7 @@
     "orientation": "horizontal",
     "modules": [
       "pulseaudio", "pulseaudio#mic", "custom/brightness",
-      "bluetooth", "network"
+      "bluetooth", "network", "battery"
     ]
   },
   "hyprland/workspaces": {
@@ -47,6 +47,14 @@
     "interval": 30,
     "on-scroll-up": "python3 ~/.config/waybar/status.py brightness +",
     "on-scroll-down": "python3 ~/.config/waybar/status.py brightness -"
+  },
+  "battery": {
+    "format": "bat {capacity}%",
+    "format-charging": "bat {capacity}% charging",
+    "format-full": "bat {capacity}% full",
+    "tooltip-format": "{timeTo}",
+    "interval": 30,
+    "states": { "warning": 20, "critical": 10 }
   },
   "bluetooth": {
     "format": "bt",
