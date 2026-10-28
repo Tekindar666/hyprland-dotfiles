@@ -1,27 +1,22 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 40,
+  "height": 34,
   "spacing": 0,
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": ["group/system"],
   "group/system": {
     "orientation": "horizontal",
     "modules": [
       "pulseaudio", "pulseaudio#mic", "custom/brightness",
-      "custom/gmail", "bluetooth", "network"
+      "bluetooth", "network"
     ]
   },
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate",
-    "active-only": true
-  },
-  "hyprland/window": {
-    "format": "{class}",
-    "max-length": 50,
-    "separate-outputs": true
+    "active-only": false
   },
   "clock": {
     "format": "{:%a %d  %H:%M}",
@@ -29,8 +24,8 @@
     "interval": 1
   },
   "pulseaudio": {
-    "format": "󰕾 {volume}%",
-    "format-muted": "󰖁 muted",
+    "format": "vol {volume}%",
+    "format-muted": "vol muted",
     "scroll-step": 5,
     "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "tooltip-format": "{desc} — {volume}%"
@@ -38,8 +33,8 @@
   "pulseaudio#mic": {
     "format": "{format_source}",
     "format-muted": "{format_source}",
-    "format-source": "󰍬 {volume}%",
-    "format-source-muted": "<span foreground='#bf616a'>󰍭 muted</span>",
+    "format-source": "mic on",
+    "format-source-muted": "<span foreground='#bf616a'>mic muted</span>",
     "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
     "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SOURCE@ 5%+",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-",
@@ -48,21 +43,17 @@
   "custom/brightness": {
     "exec": "python3 ~/.config/waybar/status.py brightness",
     "return-type": "json",
+    "format": "{}",
     "interval": 30,
     "on-scroll-up": "python3 ~/.config/waybar/status.py brightness +",
     "on-scroll-down": "python3 ~/.config/waybar/status.py brightness -"
   },
-  "custom/gmail": {
-    "exec": "python3 ~/.config/waybar/status.py gmail",
-    "return-type": "json",
-    "interval": 120
-  },
   "bluetooth": {
-    "format": " {status}",
-    "format-connected": " {num_connections}",
-    "format-disabled": " off",
-    "format-off": " off",
-    "format-no-controller": " unavailable",
+    "format": "bt",
+    "format-connected": "bt",
+    "format-disabled": "bt off",
+    "format-off": "bt off",
+    "format-no-controller": "bt n/a",
     "tooltip-format": "Bluetooth: {status}",
     "tooltip-format-connected": "{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}",
@@ -70,9 +61,9 @@
   },
   "network": {
     "interface": "wl*",
-    "format-wifi": " {signalStrength}%",
-    "format-disconnected": "󰖪 offline",
-    "format-disabled": "󰖪 off",
+    "format-wifi": "wifi",
+    "format-disconnected": "wifi offline",
+    "format-disabled": "wifi off",
     "tooltip-format-wifi": "{essid}\n{ipaddr}\nSignal: {signalStrength}%",
     "tooltip-format-disconnected": "Wi-Fi disconnected",
     "on-click": "nm-connection-editor"

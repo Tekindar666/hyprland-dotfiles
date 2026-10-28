@@ -1,10 +1,12 @@
 local main_mod = "SUPER"
-local hyper_mod = "SUPER + ALT + CTRL + SHIFT"
+
+hl.bind(main_mod .. " + R", hl.dsp.exec_cmd("handy --toggle-transcription"))
 
 hl.bind(main_mod .. " + SHIFT + T", hl.dsp.exec_cmd("ghostty"))
 hl.bind(main_mod .. " + SHIFT + B", hl.dsp.exec_cmd("zen-browser"))
 hl.bind(main_mod .. " + SHIFT + E", hl.dsp.exec_cmd("dolphin"))
 hl.bind(main_mod .. " + SPACE", hl.dsp.exec_cmd("pkill -x rofi || rofi -show drun"))
+hl.bind(main_mod .. " + V", hl.dsp.exec_cmd("sh -c 'cliphist list | rofi -dmenu -p Clipboard | cliphist decode | wl-copy'"))
 
 hl.bind(main_mod .. " + Q", hl.dsp.window.close())
 hl.bind("ALT + F4", hl.dsp.window.close())
@@ -19,8 +21,15 @@ local directions = {
 }
 
 for _, binding in ipairs(directions) do
-    hl.bind(hyper_mod .. " + " .. binding.key, hl.dsp.focus({ direction = binding.direction }))
+    hl.bind(main_mod .. " + " .. binding.key, hl.dsp.focus({ direction = binding.direction }))
     hl.bind("ALT + " .. binding.key, hl.dsp.window.swap({ direction = binding.direction }))
+end
+
+for number = 1, 9 do
+    local workspace = tostring(number)
+
+    hl.bind(main_mod .. " + " .. workspace, hl.dsp.focus({ workspace = workspace }))
+    hl.bind("ALT + " .. workspace, hl.dsp.window.move({ workspace = workspace, follow = true }))
 end
 
 local workspaces = { "w", "t", "p", "a", "d", "x", "c", "b", "m" }
@@ -29,7 +38,7 @@ for _, name in ipairs(workspaces) do
     local key = string.upper(name)
     local workspace = "name:" .. name
 
-    hl.bind(hyper_mod .. " + " .. key, hl.dsp.focus({ workspace = workspace }))
+    hl.bind(main_mod .. " + " .. key, hl.dsp.focus({ workspace = workspace }))
     hl.bind("ALT + " .. key, hl.dsp.window.move({ workspace = workspace, follow = true }))
 end
 

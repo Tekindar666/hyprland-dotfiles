@@ -39,4 +39,27 @@ if find "$TEST_HOME" -name '*.backup.*' -print -quit | grep -q .; then
     exit 1
 fi
 
+mkdir -p "$TEST_HOME/bin"
+cat >"$TEST_HOME/bin/pacman" <<'MOCK'
+#!/usr/bin/env bash
+printf '%s\n' "$*" >"$HOME/pacman-args"
+MOCK
+cat >"$TEST_HOME/bin/sudo" <<'MOCK'
+#!/usr/bin/env bash
+exec "$@"
+MOCK
+chmod +x "$TEST_HOME/bin/pacman" "$TEST_HOME/bin/sudo"
+
+HOME="$TEST_HOME" PATH="$TEST_HOME/bin:$PATH" \
+    "$REPO_DIR/install.sh" --skip-sddm --install-packages >/dev/null
+if [[ "$(<"$TEST_HOME/pacman-args")" != '-Syu --needed hyprland hyprpaper dunst rofi waybar networkmanager network-manager-applet blueman bluez bluez-utils cliphist wl-clipboard fcitx5 fcitx5-chinese-addons fcitx5-configtool polkit-gnome ghostty dolphin ttf-jetbrains-mono-nerd python ddcutil brightnessctl pipewire pipewire-audio pipewire-pulse wireplumber xdg-desktop-portal-hyprland xdg-desktop-portal-gtk' ]]; then
+    printf 'Unexpected desktop package installation command\n' >&2
+    exit 1
+fi
+
+if [[ ! -f "$TEST_HOME/.config/hypr/assets/wallpaper.png" ]]; then
+    printf 'Wallpaper asset is missing\n' >&2
+    exit 1
+fi
+
 printf 'Hyprland install smoke test passed\n'

@@ -12,64 +12,66 @@ window#waybar {
   color: #d8dee9;
 }
 
-#workspaces,
-#window,
-#clock,
-#system {
-  background: #242933;
-  border: 1px solid #4c566a;
-  border-radius: 15px;
-  margin: 3px 4px;
-}
-
 #workspaces {
-  margin-left: 8px;
+  margin-left: 14px;
 }
 
 #system {
-  margin-right: 8px;
+  margin-right: 14px;
 }
 
 #workspaces button {
-  padding: 0 11px;
-  color: #d8dee9;
+  padding: 0 3px;
+  margin: 5px 8px;
+  color: #8995a6;
   background: transparent;
-  border-radius: 15px;
+  box-shadow: none;
+  text-shadow: none;
+  border-bottom: 1px solid transparent;
 }
 
 #workspaces button:hover {
-  color: #d8dee9;
-  background: #3b4252;
+  color: #eceff4;
+  background: transparent;
 }
 
 #workspaces button.active {
-  color: #d8dee9;
-  background: #2e3440;
+  color: #88c0d0;
+  border-bottom-color: #88c0d0;
 }
 
-#window {
-  padding: 0 12px;
-  color: #d8dee9;
+#workspaces button.urgent {
+  color: #bf616a;
+  border-bottom-color: #bf616a;
 }
 
 #clock,
 #pulseaudio,
 #custom-brightness,
-#custom-gmail,
 #bluetooth,
 #network {
-  padding: 0 10px;
+  padding: 0 9px;
+}
+
+#pulseaudio.mic,
+#bluetooth {
+  color: #a5b1c2;
 }
 
 #pulseaudio.muted:not(.mic),
 #custom-brightness.unavailable,
-#custom-gmail.unavailable,
 #network.disconnected {
   color: #bf616a;
 }
 
-#network {
-  padding-right: 12px;
+#bluetooth.connected {
+  color: #88c0d0;
+}
+
+#bluetooth.disabled,
+#bluetooth.off,
+#bluetooth.no-controller {
+  color: #6f7b8e;
 }
 
 tooltip {

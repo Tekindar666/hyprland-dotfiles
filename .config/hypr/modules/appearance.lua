@@ -2,16 +2,16 @@ hl.config({
     general = {
         gaps_in = 3,
         gaps_out = { top = 4, right = 8, bottom = 8, left = 8 },
-        border_size = 2,
+        border_size = 1,
         resize_on_border = true,
         layout = "dwindle",
         col = {
-            active_border = "rgba(88c0d0ff)",
+            active_border = "rgba(ffffffff)",
             inactive_border = "rgba(4c566aff)",
         },
     },
     decoration = {
-        rounding = 6,
+        rounding = 0,
         shadow = {
             enabled = false,
         },

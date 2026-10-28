@@ -4,12 +4,14 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKIP_SDDM=false
+INSTALL_PACKAGES=false
 
 usage() {
     cat <<'EOF'
-Usage: ./install.sh [--skip-sddm]
+Usage: ./install.sh [--skip-sddm] [--install-packages]
 
 Options:
+  --install-packages  Install desktop dependencies and Ghostty/Dolphin with pacman.
   --skip-sddm  Link user configuration without installing the SDDM theme.
   -h, --help   Show this help message.
 EOF
@@ -17,6 +19,9 @@ EOF
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --install-packages)
+            INSTALL_PACKAGES=true
+            ;;
         --skip-sddm)
             SKIP_SDDM=true
             ;;
@@ -86,6 +91,34 @@ install_sddm_theme() {
         "/etc/sddm.conf.d/zz-dotfiles-theme.conf"
     printf 'Installed the Nord SDDM theme\n'
 }
+
+if [[ "$INSTALL_PACKAGES" == true ]]; then
+    if ! command -v pacman &>/dev/null; then
+        printf 'Package installation requires Arch Linux and pacman\n' >&2
+        exit 1
+    fi
+    pacman_command=(pacman)
+    if [[ $EUID -ne 0 ]]; then
+        if ! command -v sudo &>/dev/null; then
+            printf 'sudo is required to install packages\n' >&2
+            exit 1
+        fi
+        pacman_command=(sudo pacman)
+    fi
+    packages=(
+        hyprland hyprpaper dunst rofi waybar
+        networkmanager network-manager-applet blueman bluez bluez-utils
+        cliphist wl-clipboard
+        fcitx5 fcitx5-chinese-addons fcitx5-configtool polkit-gnome
+        ghostty dolphin ttf-jetbrains-mono-nerd
+        python ddcutil brightnessctl
+        pipewire pipewire-audio pipewire-pulse wireplumber
+        xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
+    )
+    "${pacman_command[@]}" -Syu --needed "${packages[@]}"
+    printf 'Zen Browser and Handy are not installed; their shortcuts require manual installation.\n'
+    printf 'On a fresh machine, enable NetworkManager and bluetooth services if needed.\n'
+fi
 
 for name in dunst hypr rofi waybar; do
     link_path "$SCRIPT_DIR/.config/$name" "$HOME/.config/$name"

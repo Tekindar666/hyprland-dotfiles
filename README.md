@@ -13,7 +13,7 @@ This repository owns desktop-session configuration only. Shared terminal and she
 - Waybar
 - Nord SDDM theme
 
-The Hyprland configuration currently targets monitor `DP-3`; adjust `.config/hypr/modules/monitors.lua` for another machine.
+The Hyprland configuration uses the connected display’s preferred mode and 1.5× scaling. This targets single-monitor desktops and laptops; customize `.config/hypr/modules/monitors.lua` if a different scale is needed.
 
 ## Install
 
@@ -28,13 +28,32 @@ The installer symlinks user configuration into `~/.config` and the Fcitx5 theme 
 ~/hyprland-dotfiles/install.sh --skip-sddm
 ```
 
+To install desktop dependencies plus Ghostty and Dolphin on Arch, add `--install-packages`.
+This runs a full `pacman -Syu --needed` upgrade with the package list in `install.sh`.
+Zen Browser and Handy remain manual installs; their shortcuts are kept.
+SDDM is optional and is not installed by this flag.
+
+On a fresh machine, enable `NetworkManager` and `bluetooth` services if needed
+(do not enable a competing network manager). PipeWire/WirePlumber provide audio.
+DDC brightness still requires compatible hardware and I2C permissions; `brightnessctl`
+is installed for laptops, but the current Waybar helper only supports DDC.
+
+The wallpaper is stored at `.config/hypr/assets/wallpaper.png` and configured in
+`.config/hypr/hyprpaper.conf`. The original file in Downloads is not needed after installation.
+
 Existing regular files or directories are moved to timestamped backups before linking.
 
 The configured session expects Hyprland with Lua configuration support plus Hyprpaper, Dunst, Rofi, Waybar, NetworkManager Applet, Blueman, cliphist, Fcitx5, fcitx5-chinese-addons, and the GNOME PolicyKit agent.
 
 ## Waybar controls
 
-Only the active workspace is shown; `w` is the default workspace on DP-3.
+Waybar uses a transparent, minimal layout with no window title and a date/time clock.
+Existing workspaces are shown, with a short blue underline on the active one.
+Workspace `1` is the startup default. Use `Super+1–9` to switch numbered
+workspaces and `Alt+1–9` to move a window and follow it. Lettered workspaces and
+their existing shortcuts remain available.
+The right side uses text labels: `vol`, `mic`, `brt`, `bt`, and `wifi`.
+Hover for details; connected Bluetooth is blue, and mute/disconnection states are explicit.
 Click volume or microphone to toggle mute; scroll to adjust the level.
 Scroll brightness to adjust the external monitor with `ddcutil` (requires I2C
 access). The brightness helper targets ddcutil's default display; revisit this
@@ -42,17 +61,7 @@ selection before adding another DDC-capable monitor. Python 3 is also required.
 Bluetooth and Wi-Fi show details on hover and open their settings on click.
 The system tray is not displayed.
 
-### Gmail unread inbox count
-
-Install [gogcli](https://github.com/openclaw/gogcli) (`gog`) and follow its OAuth
-setup instructions for Gmail. Prefer read-only Gmail authorization. Keep OAuth
-client files and tokens outside this repository. Put the authorized account
-address in `~/.config/waybar-gmail-account` (or under `$XDG_CONFIG_HOME`).
-The bar reads INBOX's `messagesUnread` count every two minutes; it does not read
-message bodies. Missing setup, authentication failures, or network errors show
-an unavailable indicator, not zero. Authorization is a separate manual step.
-
-Validation: `python3 tests/waybar-status.py`. After reloading Waybar, check both
+After reloading Waybar, check both
 audio mute controls, brightness scrolling, and Bluetooth/Wi-Fi tooltips. Check
 the default workspace in a fresh Hyprland session; reloading does not move the
 current workspace.
