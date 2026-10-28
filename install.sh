@@ -11,7 +11,7 @@ usage() {
 Usage: ./install.sh [--skip-sddm] [--install-packages]
 
 Options:
-  --install-packages  Install desktop dependencies and Ghostty/Dolphin with pacman.
+  --install-packages  Install desktop packages with pacman and Vicinae via yay (AUR).
   --skip-sddm  Link user configuration without installing the SDDM theme.
   -h, --help   Show this help message.
 EOF
@@ -92,7 +92,24 @@ install_sddm_theme() {
     printf 'Installed the Nord SDDM theme\n'
 }
 
+install_yay() (
+    if command -v yay &>/dev/null; then
+        return
+    fi
+
+    # AUR builds must run as the user; makepkg requests sudo for installation.
+    build_dir="$(mktemp -d)"
+    trap 'rm -rf "$build_dir"' EXIT
+    git clone https://aur.archlinux.org/yay-bin.git "$build_dir/yay-bin"
+    cd "$build_dir/yay-bin"
+    makepkg -si
+)
+
 if [[ "$INSTALL_PACKAGES" == true ]]; then
+    if [[ $EUID -eq 0 ]]; then
+        printf 'Run --install-packages as your normal user, not root; AUR builds use makepkg.\n' >&2
+        exit 1
+    fi
     if ! command -v pacman &>/dev/null; then
         printf 'Package installation requires Arch Linux and pacman\n' >&2
         exit 1
@@ -106,21 +123,24 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
         pacman_command=(sudo pacman)
     fi
     packages=(
-        hyprland hyprpaper dunst rofi waybar
+        base-devel git
+        hyprland hyprpaper dunst waybar
         networkmanager network-manager-applet blueman bluez bluez-utils
-        cliphist wl-clipboard
+        wl-clipboard
         fcitx5 fcitx5-chinese-addons fcitx5-configtool polkit-gnome
-        ghostty dolphin ttf-jetbrains-mono-nerd
+        ghostty nautilus ttf-jetbrains-mono-nerd
         python ddcutil brightnessctl
         pipewire pipewire-audio pipewire-pulse wireplumber
         xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
     )
     "${pacman_command[@]}" -Syu --needed "${packages[@]}"
+    install_yay
+    yay -S --needed vicinae-bin
     printf 'Zen Browser and Handy are not installed; their shortcuts require manual installation.\n'
     printf 'On a fresh machine, enable NetworkManager and bluetooth services if needed.\n'
 fi
 
-for name in dunst hypr rofi waybar; do
+for name in dunst hypr waybar; do
     link_path "$SCRIPT_DIR/.config/$name" "$HOME/.config/$name"
 done
 

@@ -9,7 +9,7 @@ This repository owns desktop-session configuration only. Shared terminal and she
 - Hyprland and Hyprpaper
 - Dunst
 - Fcitx5 Nordic candidate-menu theme
-- Rofi
+- Legacy Rofi theme (retained for reference; no longer linked by the installer)
 - Waybar
 - Nord SDDM theme
 
@@ -28,8 +28,17 @@ The installer symlinks user configuration into `~/.config` and the Fcitx5 theme 
 ~/hyprland-dotfiles/install.sh --skip-sddm
 ```
 
-To install desktop dependencies plus Ghostty and Dolphin on Arch, add `--install-packages`.
-This runs a full `pacman -Syu --needed` upgrade with the package list in `install.sh`.
+To install desktop dependencies plus Ghostty, Nautilus, and Vicinae on Arch, add `--install-packages`.
+Run this as your normal user, not with `sudo`; it requests elevation when needed.
+This runs a full `pacman -Syu --needed` upgrade with the package list in `install.sh`,
+including `base-devel` and `git`. If `yay` is missing, it builds and installs `yay-bin`
+from the AUR, then installs `vicinae-bin` using `yay`. Package confirmation prompts
+remain interactive. Vicinae's package includes an input helper for snippets/paste.
+Vicinae starts with Hyprland: `Super+Space` toggles the launcher and `Super+V`
+opens clipboard history. Vicinae manages new clipboard history itself; old cliphist
+history is not migrated or deleted. Rofi and cliphist are no longer installed by
+this script; existing packages, Rofi configuration links, and history are left untouched.
+`wl-clipboard` remains available for terminal clipboard commands.
 Zen Browser and Handy remain manual installs; their shortcuts are kept.
 SDDM is optional and is not installed by this flag.
 
@@ -43,7 +52,7 @@ The wallpaper is stored at `.config/hypr/assets/ign_unsplash44.png` and configur
 
 Existing regular files or directories are moved to timestamped backups before linking.
 
-The configured session expects Hyprland with Lua configuration support plus Hyprpaper, Dunst, Rofi, Waybar, NetworkManager Applet, Blueman, cliphist, Fcitx5, fcitx5-chinese-addons, and the GNOME PolicyKit agent.
+The configured session expects Hyprland with Lua configuration support plus Hyprpaper, Dunst, Vicinae, Waybar, NetworkManager Applet, Blueman, Fcitx5, fcitx5-chinese-addons, and the GNOME PolicyKit agent.
 
 ## Waybar controls
 

@@ -5,7 +5,7 @@ hl.config({
         sensitivity = 0,
         numlock_by_default = true,
         touchpad = {
-            natural_scroll = false,
+            natural_scroll = true,
             clickfinger_behavior = true,
         },
     },

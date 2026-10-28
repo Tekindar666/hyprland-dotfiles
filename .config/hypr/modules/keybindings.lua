@@ -4,9 +4,9 @@ hl.bind(main_mod .. " + R", hl.dsp.exec_cmd("handy --toggle-transcription"))
 
 hl.bind(main_mod .. " + SHIFT + T", hl.dsp.exec_cmd("ghostty"))
 hl.bind(main_mod .. " + SHIFT + B", hl.dsp.exec_cmd("zen-browser"))
-hl.bind(main_mod .. " + SHIFT + E", hl.dsp.exec_cmd("dolphin"))
-hl.bind(main_mod .. " + SPACE", hl.dsp.exec_cmd("pkill -x rofi || rofi -show drun"))
-hl.bind(main_mod .. " + V", hl.dsp.exec_cmd("sh -c 'cliphist list | rofi -dmenu -p Clipboard | cliphist decode | wl-copy'"))
+hl.bind(main_mod .. " + SHIFT + E", hl.dsp.exec_cmd("nautilus"))
+hl.bind(main_mod .. " + SPACE", hl.dsp.exec_cmd("vicinae toggle"))
+hl.bind(main_mod .. " + V", hl.dsp.exec_cmd("vicinae deeplink vicinae://launch/clipboard/history"))
 
 hl.bind(main_mod .. " + Q", hl.dsp.window.close())
 hl.bind("ALT + F4", hl.dsp.window.close())
