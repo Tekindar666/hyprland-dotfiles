@@ -26,6 +26,11 @@ for name in dunst hypr waybar; do
     fi
 done
 
+if [[ ! -L "$TEST_HOME/.config/ags" || "$(readlink "$TEST_HOME/.config/ags")" != "$REPO_DIR/ags" ]]; then
+    printf 'Invalid config link: %s\n' "$TEST_HOME/.config/ags" >&2
+    exit 1
+fi
+
 while read -r source target; do
     expected="$REPO_DIR/$source"
     actual="$TEST_HOME/$target"
@@ -66,8 +71,8 @@ if [[ "$(<"$TEST_HOME/pacman-args")" != '-Syu --needed base-devel git hyprland h
     exit 1
 fi
 
-if [[ "$(<"$TEST_HOME/yay-args")" != '-S --needed vicinae-bin' ]]; then
-    printf 'Unexpected Vicinae installation command\n' >&2
+if [[ "$(<"$TEST_HOME/yay-args")" != '-S --needed vicinae-bin aylurs-gtk-shell-git libastal-meta' ]]; then
+    printf 'Unexpected AUR package installation command\n' >&2
     exit 1
 fi
 
@@ -94,7 +99,7 @@ chmod +x "$TEST_HOME/bin/git" "$TEST_HOME/bin/makepkg"
 rm "$TEST_HOME/yay-args"
 HOME="$TEST_HOME" PATH="$TEST_HOME/bin:$TEST_HOME/tools" \
     "$REPO_DIR/install.sh" --skip-sddm --install-packages >/dev/null
-if [[ "$(<"$TEST_HOME/yay-args")" != '-S --needed vicinae-bin' || -d "$(<"$TEST_HOME/yay-build-path")" ]]; then
+if [[ "$(<"$TEST_HOME/yay-args")" != '-S --needed vicinae-bin aylurs-gtk-shell-git libastal-meta' || -d "$(<"$TEST_HOME/yay-build-path")" ]]; then
     printf 'Yay bootstrap failed or left its build directory behind\n' >&2
     exit 1
 fi

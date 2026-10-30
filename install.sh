@@ -11,7 +11,7 @@ usage() {
 Usage: ./install.sh [--skip-sddm] [--install-packages]
 
 Options:
-  --install-packages  Install desktop packages with pacman and Vicinae via yay (AUR).
+  --install-packages  Install desktop packages with pacman and AUR packages via yay.
   --skip-sddm  Link user configuration without installing the SDDM theme.
   -h, --help   Show this help message.
 EOF
@@ -135,7 +135,7 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
     )
     "${pacman_command[@]}" -Syu --needed "${packages[@]}"
     install_yay
-    yay -S --needed vicinae-bin
+    yay -S --needed vicinae-bin aylurs-gtk-shell-git libastal-meta
     printf 'Zen Browser and Handy are not installed; their shortcuts require manual installation.\n'
     printf 'On a fresh machine, enable NetworkManager and bluetooth services if needed.\n'
 fi
@@ -143,6 +143,8 @@ fi
 for name in dunst hypr waybar; do
     link_path "$SCRIPT_DIR/.config/$name" "$HOME/.config/$name"
 done
+
+link_path "$SCRIPT_DIR/ags" "$HOME/.config/ags"
 
 link_path \
     "$SCRIPT_DIR/.config/fcitx5/conf/classicui.conf" \

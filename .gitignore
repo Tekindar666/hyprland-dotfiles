@@ -12,3 +12,7 @@
 .env
 *.log
 .cache/
+
+# AGS generated types and dependencies
+ags/@girs/
+ags/node_modules/
