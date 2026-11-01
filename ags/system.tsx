@@ -1,12 +1,14 @@
 import { createBinding, createComputed } from "ags";
 import { createPoll } from "ags/time";
-import GLib from "gi://GLib?version=2.0";
 import Battery from "gi://AstalBattery";
 import Bluetooth from "gi://AstalBluetooth";
 import Network from "gi://AstalNetwork";
 import Wp from "gi://AstalWp";
+import { fetchBrightness } from "./brightness";
 
-function Volume() {
+type PanelTriggerProps = { onClicked: () => void };
+
+function Volume({ onClicked }: PanelTriggerProps) {
   const wp = Wp.get_default();
   const volume = createBinding(wp, "defaultSpeaker", "volume");
   const muted = createBinding(wp, "defaultSpeaker", "mute");
@@ -15,16 +17,24 @@ function Volume() {
   );
   const className = muted.as((value) => value ? "module muted" : "module");
 
-  return <label class={className} label={text} />;
+  return (
+    <button class={className} onClicked={onClicked}>
+      <label label={text} />
+    </button>
+  );
 }
 
-function Microphone() {
+function Microphone({ onClicked }: PanelTriggerProps) {
   const wp = Wp.get_default();
   const muted = createBinding(wp, "defaultMicrophone", "mute");
   const text = muted.as((value) => value ? "mic muted" : "mic on");
   const className = muted.as((value) => value ? "module muted" : "module");
 
-  return <label class={className} label={text} />;
+  return (
+    <button class={className} onClicked={onClicked}>
+      <label label={text} />
+    </button>
+  );
 }
 
 type BrightnessStatus = {
@@ -32,24 +42,30 @@ type BrightnessStatus = {
   class?: string;
 };
 
-function Brightness() {
+function Brightness({ onClicked }: PanelTriggerProps) {
   const status = createPoll<BrightnessStatus>(
     { text: "brt —" },
     30000,
-    // TODO: Replace the Waybar status.py dependency with a TypeScript brightness script.
-    ["python3", `${GLib.get_home_dir()}/.config/waybar/status.py`, "brightness"],
-    (stdout) => JSON.parse(stdout) as BrightnessStatus
+    async () => {
+      try {
+        return { text: `brt ${await fetchBrightness()}%` };
+      } catch {
+        return { text: "brt —", class: "unavailable" };
+      }
+    }
   );
 
   return (
-    <label
+    <button
       class={status.as((value) => `module ${value.class ?? ""}`)}
-      label={status.as((value) => value.text)}
-    />
+      onClicked={onClicked}
+    >
+      <label label={status.as((value) => value.text)} />
+    </button>
   );
 }
 
-function BluetoothStatus() {
+function BluetoothStatus({ onClicked }: PanelTriggerProps) {
   const bluetooth = Bluetooth.get_default();
   const adapter = createBinding(bluetooth, "adapter");
   const powered = createBinding(bluetooth, "isPowered");
@@ -58,10 +74,14 @@ function BluetoothStatus() {
     return powered() ? "bt" : "bt off";
   });
 
-  return <label class="module bluetooth" label={text} />;
+  return (
+    <button class="module bluetooth" onClicked={onClicked}>
+      <label label={text} />
+    </button>
+  );
 }
 
-function NetworkStatus() {
+function NetworkStatus({ onClicked }: PanelTriggerProps) {
   const network = Network.get_default();
   const enabled = createBinding(network, "wifi", "enabled");
   const state = createBinding(network, "wifi", "state");
@@ -76,10 +96,14 @@ function NetworkStatus() {
     enabled() === true && !connected() ? "module disconnected" : "module"
   );
 
-  return <label class={className} label={text} />;
+  return (
+    <button class={className} onClicked={onClicked}>
+      <label label={text} />
+    </button>
+  );
 }
 
-function BatteryStatus() {
+function BatteryStatus({ onClicked }: PanelTriggerProps) {
   const battery = Battery.get_default();
   const percentage = createBinding(battery, "percentage");
   const charging = createBinding(battery, "charging");
@@ -95,23 +119,25 @@ function BatteryStatus() {
   );
 
   return (
-    <label
+    <button
       visible={createBinding(battery, "isPresent")}
       class={className}
-      label={text}
-    />
+      onClicked={onClicked}
+    >
+      <label label={text} />
+    </button>
   );
 }
 
-export function System() {
+export function System({ onModuleClicked }: { onModuleClicked: () => void }) {
   return (
     <box class="system">
-      <Volume />
-      <Microphone />
-      <Brightness />
-      <BluetoothStatus />
-      <NetworkStatus />
-      <BatteryStatus />
+      <Volume onClicked={onModuleClicked} />
+      <Microphone onClicked={onModuleClicked} />
+      <Brightness onClicked={onModuleClicked} />
+      <BluetoothStatus onClicked={onModuleClicked} />
+      <NetworkStatus onClicked={onModuleClicked} />
+      <BatteryStatus onClicked={onModuleClicked} />
     </box>
   );
 }

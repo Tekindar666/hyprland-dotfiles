@@ -1,0 +1,85 @@
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 16px;
+  font-weight: 600;
+}
+
+window {
+  min-height: 34px;
+  background: transparent;
+  color: #d8dee9;
+}
+
+.workspaces {
+  margin-left: 14px;
+}
+
+.clock {
+  padding: 0 9px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.system {
+  margin-right: 14px;
+}
+
+.system button.module {
+  padding: 0 9px;
+  color: inherit;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.system .muted:not(.bluetooth),
+.system .unavailable,
+.system .disconnected,
+.system .critical {
+  color: #bf616a;
+}
+
+.workspaces button {
+  padding: 0 3px;
+  margin: 5px 8px;
+  color: #8995a6;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.workspaces button.active {
+  color: #88c0d0;
+  border-bottom-color: #88c0d0;
+}
+
+
+/* Styles for panel */
+
+.right-panel {
+  min-width: 420px;
+  padding: 20px 16px;
+  margin: 50px 20px 50px 0;
+  background: rgba(46, 52, 64, 1);
+  border: 1px solid white;
+}
+
+.slider-row {
+  min-height: 44px;
+}
+
+.slider-icon {
+  min-width: 24px;
+}
+
+.slider-value {
+  min-width: 48px;
+}
+
+.right-panel scale {
+  min-width: 240px;
+}
