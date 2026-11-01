@@ -5,8 +5,8 @@ import { Slider } from "./slider";
 import { execAsync } from "ags/process";
 import { applyBrightness, fetchBrightness } from "./brightness";
 
-async function fetchVolume(): Promise<number> {
-  const output = await execAsync(["wpctl", "get-volume", "@DEFAULT_AUDIO_SINK"]);
+async function fetchVolume(target: string): Promise<number> {
+  const output = await execAsync(["wpctl", "get-volume", target]);
   const match = output.match(/Volume:\s*([\d.]+)/);
 
   if (!match) {
@@ -18,25 +18,32 @@ async function fetchVolume(): Promise<number> {
 }
 
 export function RightPanel({ visible }: { visible: Accessor<boolean> }) {
-  const { TOP, RIGHT, BOTTOM } = Astal.WindowAnchor;
+  const { TOP, RIGHT } = Astal.WindowAnchor;
 
   return (
     <window
       visible={visible}
       layer={Astal.Layer.OVERLAY}
       exclusivity={Astal.Exclusivity.IGNORE}
-      anchor={TOP | RIGHT | BOTTOM}
+      anchor={TOP | RIGHT}
+      marginTop={34}
     >
-      <box
-        class="right-panel"
-        orientation={Gtk.Orientation.VERTICAL}
-        spacing={16}
-      >
+      <box class="right-panel" orientation={Gtk.Orientation.VERTICAL} spacing={16}>
+        <label class="panel-title" label="Utils" halign={Gtk.Align.CENTER} />
         <Slider
           icon=""
-          fetchValue={fetchVolume}
+          fetchValue={() => fetchVolume("@DEFAULT_AUDIO_SINK@")}
           onApply={(value) => {
             void execAsync(["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", `${value}%`]).catch(
+              console.error,
+            );
+          }}
+        />
+        <Slider
+          icon=""
+          fetchValue={() => fetchVolume("@DEFAULT_AUDIO_SOURCE@")}
+          onApply={(value) => {
+            void execAsync(["wpctl", "set-volume", "@DEFAULT_AUDIO_SOURCE@", `${value}%`]).catch(
               console.error,
             );
           }}

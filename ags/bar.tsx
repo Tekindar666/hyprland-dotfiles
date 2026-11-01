@@ -11,7 +11,7 @@ const hyprland = Hyprland.get_default();
 
 function Workspaces() {
   const workspaces = createBinding(hyprland, "workspaces").as((items) =>
-    [...items].sort((a, b) => a.id - b.id)
+    [...items].sort((a, b) => a.id - b.id),
   );
   const focusedWorkspace = createBinding(hyprland, "focusedWorkspace");
 
@@ -21,9 +21,7 @@ function Workspaces() {
         {(workspace) => (
           <button
             label={workspace.name}
-            class={focusedWorkspace.as((focused) =>
-              focused.id === workspace.id ? "active" : ""
-            )}
+            class={focusedWorkspace.as((focused) => (focused.id === workspace.id ? "active" : ""))}
             onClicked={() => hyprland.dispatch("workspace", workspace.name)}
           />
         )}
@@ -44,11 +42,7 @@ app.start({
     RightPanel({ visible: panelVisible });
 
     return (
-      <window
-        visible
-        anchor={TOP | LEFT | RIGHT}
-        exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      >
+      <window visible anchor={TOP | LEFT | RIGHT} exclusivity={Astal.Exclusivity.EXCLUSIVE}>
         <centerbox>
           <box $type="start">
             <Workspaces />

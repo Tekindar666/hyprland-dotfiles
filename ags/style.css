@@ -63,7 +63,7 @@ window {
 .right-panel {
   min-width: 420px;
   padding: 20px 16px;
-  margin: 50px 20px 50px 0;
+  margin-right: 20px;
   background: rgba(46, 52, 64, 1);
   border: 1px solid white;
 }
