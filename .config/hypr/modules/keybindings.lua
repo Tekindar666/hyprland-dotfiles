@@ -2,9 +2,9 @@ local main_mod = "SUPER"
 
 hl.bind(main_mod .. " + R", hl.dsp.exec_cmd("handy --toggle-transcription"))
 
-hl.bind(main_mod .. " + SHIFT + T", hl.dsp.exec_cmd("ghostty"))
-hl.bind(main_mod .. " + SHIFT + B", hl.dsp.exec_cmd("zen-browser"))
-hl.bind(main_mod .. " + SHIFT + E", hl.dsp.exec_cmd("nautilus"))
+hl.bind(main_mod .. " + T", hl.dsp.exec_cmd("ghostty"))
+hl.bind(main_mod .. " + B", hl.dsp.exec_cmd("zen-browser"))
+hl.bind(main_mod .. " + E", hl.dsp.exec_cmd("nautilus"))
 hl.bind(main_mod .. " + SPACE", hl.dsp.exec_cmd("vicinae toggle"))
 hl.bind(main_mod .. " + V", hl.dsp.exec_cmd("vicinae deeplink vicinae://launch/clipboard/history"))
 
@@ -30,16 +30,6 @@ for number = 1, 9 do
 
     hl.bind(main_mod .. " + " .. workspace, hl.dsp.focus({ workspace = workspace }))
     hl.bind("ALT + " .. workspace, hl.dsp.window.move({ workspace = workspace, follow = true }))
-end
-
-local workspaces = { "w", "t", "p", "a", "d", "x", "c", "b", "m" }
-
-for _, name in ipairs(workspaces) do
-    local key = string.upper(name)
-    local workspace = "name:" .. name
-
-    hl.bind(main_mod .. " + " .. key, hl.dsp.focus({ workspace = workspace }))
-    hl.bind("ALT + " .. key, hl.dsp.window.move({ workspace = workspace, follow = true }))
 end
 
 hl.bind(main_mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
