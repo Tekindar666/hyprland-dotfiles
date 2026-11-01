@@ -1,4 +1,5 @@
 import { createBinding, createComputed } from "ags";
+import Gtk from "gi://Gtk?version=4.0";
 import { createPoll } from "ags/time";
 import Battery from "gi://AstalBattery";
 import Bluetooth from "gi://AstalBluetooth";
@@ -7,6 +8,12 @@ import Wp from "gi://AstalWp";
 import { fetchBrightness } from "./brightness";
 
 type PanelTriggerProps = { onClicked: () => void };
+
+function addRightClick(button: Gtk.Button, onClicked: () => void) {
+  const gesture = new Gtk.GestureClick({ button: 3 });
+  gesture.connect("pressed", onClicked);
+  button.add_controller(gesture);
+}
 
 function Volume({ onClicked }: PanelTriggerProps) {
   const wp = Wp.get_default();
@@ -18,7 +25,7 @@ function Volume({ onClicked }: PanelTriggerProps) {
   const className = muted.as((value) => value ? "module muted" : "module");
 
   return (
-    <button class={className} onClicked={onClicked}>
+    <button class={className} $={(self) => addRightClick(self, onClicked)}>
       <label label={text} />
     </button>
   );
@@ -31,7 +38,7 @@ function Microphone({ onClicked }: PanelTriggerProps) {
   const className = muted.as((value) => value ? "module muted" : "module");
 
   return (
-    <button class={className} onClicked={onClicked}>
+    <button class={className} $={(self) => addRightClick(self, onClicked)}>
       <label label={text} />
     </button>
   );
@@ -58,7 +65,7 @@ function Brightness({ onClicked }: PanelTriggerProps) {
   return (
     <button
       class={status.as((value) => `module ${value.class ?? ""}`)}
-      onClicked={onClicked}
+      $={(self) => addRightClick(self, onClicked)}
     >
       <label label={status.as((value) => value.text)} />
     </button>
@@ -75,7 +82,10 @@ function BluetoothStatus({ onClicked }: PanelTriggerProps) {
   });
 
   return (
-    <button class="module bluetooth" onClicked={onClicked}>
+    <button
+      class="module bluetooth"
+      $={(self) => addRightClick(self, onClicked)}
+    >
       <label label={text} />
     </button>
   );
@@ -97,7 +107,7 @@ function NetworkStatus({ onClicked }: PanelTriggerProps) {
   );
 
   return (
-    <button class={className} onClicked={onClicked}>
+    <button class={className} $={(self) => addRightClick(self, onClicked)}>
       <label label={text} />
     </button>
   );
@@ -122,7 +132,7 @@ function BatteryStatus({ onClicked }: PanelTriggerProps) {
     <button
       visible={createBinding(battery, "isPresent")}
       class={className}
-      onClicked={onClicked}
+      $={(self) => addRightClick(self, onClicked)}
     >
       <label label={text} />
     </button>

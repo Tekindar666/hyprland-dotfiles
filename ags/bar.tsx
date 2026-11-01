@@ -1,5 +1,6 @@
 import app from "ags/gtk4/app";
 import { Astal } from "ags/gtk4";
+import Gtk from "gi://Gtk?version=4.0";
 import { createPoll } from "ags/time";
 import { Accessor, createBinding, createState, For } from "ags";
 import Hyprland from "gi://AstalHyprland";
@@ -23,6 +24,20 @@ function Workspaces() {
             label={workspace.name}
             class={focusedWorkspace.as((focused) => (focused.id === workspace.id ? "active" : ""))}
             onClicked={() => hyprland.dispatch("workspace", workspace.name)}
+            $={(self) => {
+              const gesture = new Gtk.GestureClick({ button: 3 });
+              gesture.connect("pressed", () => {
+                const client = hyprland.focusedClient;
+                if (!client) return;
+
+                hyprland.dispatch(
+                  "movetoworkspace",
+                  `${workspace.id},address:${client.address}`,
+                );
+                hyprland.dispatch("workspace", workspace.name);
+              });
+              self.add_controller(gesture);
+            }}
           />
         )}
       </For>
@@ -51,7 +66,6 @@ app.start({
             $type="center"
             class="clock"
             label={clock}
-            onClicked={() => setPanelVisible(!panelVisible())}
           />
           <box $type="end">
             <System onModuleClicked={() => setPanelVisible(!panelVisible())} />
