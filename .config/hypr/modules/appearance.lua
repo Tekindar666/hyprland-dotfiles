@@ -29,6 +29,11 @@ hl.config({
     },
 })
 
+hl.window_rule({
+    match = { class = "zen" },
+    opacity = 0.95,
+})
+
 hl.animation({
     leaf = "global",
     enabled = true,
