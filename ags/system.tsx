@@ -25,7 +25,7 @@ function Volume({ onClicked }: PanelTriggerProps) {
   const className = muted.as((value) => value ? "module muted" : "module");
 
   return (
-    <button class={className} $={(self) => addRightClick(self, onClicked)}>
+    <button onClicked={onClicked} class={className} $={(self) => addRightClick(self, onClicked)}>
       <label label={text} />
     </button>
   );
@@ -38,7 +38,7 @@ function Microphone({ onClicked }: PanelTriggerProps) {
   const className = muted.as((value) => value ? "module muted" : "module");
 
   return (
-    <button class={className} $={(self) => addRightClick(self, onClicked)}>
+    <button onClicked={onClicked} class={className} $={(self) => addRightClick(self, onClicked)}>
       <label label={text} />
     </button>
   );
@@ -64,6 +64,7 @@ function Brightness({ onClicked }: PanelTriggerProps) {
 
   return (
     <button
+      onClicked={onClicked}
       class={status.as((value) => `module ${value.class ?? ""}`)}
       $={(self) => addRightClick(self, onClicked)}
     >
@@ -83,6 +84,7 @@ function BluetoothStatus({ onClicked }: PanelTriggerProps) {
 
   return (
     <button
+      onClicked={onClicked}
       class="module bluetooth"
       $={(self) => addRightClick(self, onClicked)}
     >
@@ -107,7 +109,7 @@ function NetworkStatus({ onClicked }: PanelTriggerProps) {
   );
 
   return (
-    <button class={className} $={(self) => addRightClick(self, onClicked)}>
+    <button onClicked={onClicked} class={className} $={(self) => addRightClick(self, onClicked)}>
       <label label={text} />
     </button>
   );
@@ -130,6 +132,7 @@ function BatteryStatus({ onClicked }: PanelTriggerProps) {
 
   return (
     <button
+      onClicked={onClicked}
       visible={createBinding(battery, "isPresent")}
       class={className}
       $={(self) => addRightClick(self, onClicked)}

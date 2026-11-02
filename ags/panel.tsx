@@ -30,6 +30,10 @@ export function RightPanel({ visible }: { visible: Accessor<boolean> }) {
     >
       <box class="right-panel" orientation={Gtk.Orientation.VERTICAL} spacing={16}>
         <label class="panel-title" label="Utils" halign={Gtk.Align.CENTER} />
+        <box class="power-actions" spacing={8} halign={Gtk.Align.CENTER}>
+          <button label="Sleep" onClicked={() => void execAsync(["systemctl", "suspend"]).catch(console.error)} />
+          <button label="Power off" onClicked={() => void execAsync(["systemctl", "poweroff"]).catch(console.error)} />
+        </box>
         <Slider
           icon=""
           fetchValue={() => fetchVolume("@DEFAULT_AUDIO_SINK@")}

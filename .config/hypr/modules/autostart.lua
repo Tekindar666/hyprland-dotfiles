@@ -1,7 +1,7 @@
 hl.on("hyprland.start", function()
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-    hl.exec_cmd("dunst")
     hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("astal-notifd -d")
     hl.exec_cmd("ags run $HOME/.config/ags/bar.tsx")
     hl.exec_cmd("vicinae server")
     hl.exec_cmd("nm-applet --indicator")

@@ -124,7 +124,7 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
     fi
     packages=(
         base-devel git
-        hyprland hyprpaper dunst waybar
+        hyprland hyprpaper waybar
         networkmanager network-manager-applet blueman bluez bluez-utils
         wl-clipboard
         fcitx5 fcitx5-chinese-addons fcitx5-configtool polkit-gnome
@@ -140,7 +140,7 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
     printf 'On a fresh machine, enable NetworkManager and bluetooth services if needed.\n'
 fi
 
-for name in dunst hypr waybar; do
+for name in hypr waybar; do
     link_path "$SCRIPT_DIR/.config/$name" "$HOME/.config/$name"
 done
 

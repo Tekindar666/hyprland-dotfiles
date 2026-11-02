@@ -83,3 +83,22 @@ window {
 .right-panel scale {
   min-width: 240px;
 }
+
+.notification-panel {
+  min-width: 420px;
+  margin-left: 20px;
+}
+
+.notification-item {
+  padding: 10px;
+  background: rgba(59, 66, 82, 1);
+}
+
+.notification-app {
+  color: #88c0d0;
+}
+
+.notification-body {
+  color: #d8dee9;
+  font-weight: 400;
+}

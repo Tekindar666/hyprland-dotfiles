@@ -7,7 +7,6 @@ This repository owns desktop-session configuration only. Shared terminal and she
 ## Tracked configuration
 
 - Hyprland and Hyprpaper
-- Dunst
 - Fcitx5 Nordic candidate-menu theme
 - Legacy Rofi theme (retained for reference; no longer linked by the installer)
 - Waybar
@@ -52,7 +51,7 @@ The wallpaper is stored at `.config/hypr/assets/ign_unsplash44.png` and configur
 
 Existing regular files or directories are moved to timestamped backups before linking.
 
-The configured session expects Hyprland with Lua configuration support plus Hyprpaper, Dunst, Vicinae, Waybar, NetworkManager Applet, Blueman, Fcitx5, fcitx5-chinese-addons, and the GNOME PolicyKit agent.
+The configured session expects Hyprland with Lua configuration support plus Hyprpaper, Vicinae, Waybar, NetworkManager Applet, Blueman, Fcitx5, fcitx5-chinese-addons, and the GNOME PolicyKit agent. AGS provides the notification daemon and center; Dunst is no longer started.
 
 ## Waybar controls
 

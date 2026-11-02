@@ -16,7 +16,7 @@ if [[ -e "$TEST_HOME/.config/rofi" || -L "$TEST_HOME/.config/rofi" ]]; then
     exit 1
 fi
 
-for name in dunst hypr waybar; do
+for name in hypr waybar; do
     source="$REPO_DIR/.config/$name"
     target="$TEST_HOME/.config/$name"
 
@@ -66,7 +66,7 @@ chmod +x "$TEST_HOME/bin/pacman" "$TEST_HOME/bin/sudo" "$TEST_HOME/bin/yay"
 
 HOME="$TEST_HOME" PATH="$TEST_HOME/bin:$PATH" \
     "$REPO_DIR/install.sh" --skip-sddm --install-packages >/dev/null
-if [[ "$(<"$TEST_HOME/pacman-args")" != '-Syu --needed base-devel git hyprland hyprpaper dunst waybar networkmanager network-manager-applet blueman bluez bluez-utils wl-clipboard fcitx5 fcitx5-chinese-addons fcitx5-configtool polkit-gnome ghostty nautilus ttf-jetbrains-mono-nerd python ddcutil brightnessctl pipewire pipewire-audio pipewire-pulse wireplumber xdg-desktop-portal-hyprland xdg-desktop-portal-gtk' ]]; then
+if [[ "$(<"$TEST_HOME/pacman-args")" != '-Syu --needed base-devel git hyprland hyprpaper waybar networkmanager network-manager-applet blueman bluez bluez-utils wl-clipboard fcitx5 fcitx5-chinese-addons fcitx5-configtool polkit-gnome ghostty nautilus ttf-jetbrains-mono-nerd python ddcutil brightnessctl pipewire pipewire-audio pipewire-pulse wireplumber xdg-desktop-portal-hyprland xdg-desktop-portal-gtk' ]]; then
     printf 'Unexpected desktop package installation command\n' >&2
     exit 1
 fi
